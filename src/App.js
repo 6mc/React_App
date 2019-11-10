@@ -75,14 +75,13 @@ super(props);
 
   onSubmit(e) {
     e.preventDefault();
-    const obj = {
+    var obj = {
       cryptocurrency_name: this.state.cryptocurrency_name,
       cryptocurrency_code: this.state.cryptocurrency_code
     };
-    // axios.post('http://localhost:4000/business/add', obj)
-  //      .then(res => console.log(res.data));
-    
-console.log (obj);
+     axios.post('http://localhost:4000/add', obj)
+        .then(res => console.log(res));
+
 
     this.setState({
        cryptocurrency_name: '',
