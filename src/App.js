@@ -5,6 +5,18 @@ import axios from 'axios';
 
 export default class Create extends Component {
 
+state = {
+    coins: []
+  }
+
+  componentDidMount() {
+    axios.get("http://localhost:4000/index")
+      .then(res => {
+        var coins = res.data;
+        this.setState({ coins });
+      })
+  }
+
   constructor(props) {
 super(props);
        this.onChangeName = this.onChangeName.bind(this);
@@ -18,6 +30,7 @@ super(props);
 //    this.values =coins
 
     this.state = {
+      coins:[],
       cryptocurrency_name: '',
       cryptocurrency_code: ''
      }
@@ -41,9 +54,7 @@ super(props);
       cryptocurrency_name: this.state.cryptocurrency_name,
       cryptocurrency_code: this.state.cryptocurrency_code
     };
-     axios.post('http://localhost:4000/add', obj)
-        .then(res => console.log(res));
-
+     
 
     this.setState({
        cryptocurrency_name: '',
@@ -77,18 +88,11 @@ super(props);
     </tr>
   </thead>
   <tbody>
+    { this.state.coins.map(coin => 
     <tr>
-      <td>Test</td>
-      <td>Test</td>
-      </tr>
-    <tr>
-      <td>Bitcoin</td>
-      <td>1000+</td>
-      </tr>
-    <tr>
-      <td>Litecoin</td>
-      <td>100+</td>
-      </tr>
+      <td>{coin.cryptocurrency_name}</td>
+      <td>{coin.cryptocurrency_code}</td>
+      </tr>)}
   </tbody>
 </table>
             </div>
