@@ -55,6 +55,14 @@ super(props);
       cryptocurrency_code: this.state.cryptocurrency_code
     };
      
+axios.post('http://localhost:4000/add', obj).then(res => 
+
+    axios.get("http://localhost:4000/index").then(res => {
+        var coins = res.data;
+        this.setState({ coins });
+      })
+      );
+
 
     this.setState({
        cryptocurrency_name: '',

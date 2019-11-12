@@ -36,8 +36,6 @@ MongoClient.connect(url, function(err, db) {
 
 
  app.post('/add', function(req,res){
-     res.json(req.body);
-     console.log(req.body)
    
 
 MongoClient.connect(url, function(err, db) {
@@ -50,5 +48,7 @@ MongoClient.connect(url, function(err, db) {
   });
 });
 
+     res.json(req.body);
+     console.log(req.body)
 
    });
