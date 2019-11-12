@@ -5,6 +5,8 @@ import axios from 'axios';
 
 export default class Create extends Component {
 
+  
+
 state = {
     coins: []
   }
@@ -41,6 +43,25 @@ super(props);
       cryptocurrency_name: e.target.value
     });
   }
+
+  remove(coin)
+  {
+    var todelete = {
+       cryptocurrency_code: coin
+    };
+
+axios.post('http://localhost:4000/delete', todelete).then(res => 
+
+    axios.get("http://localhost:4000/index").then(res => {
+        var coins = res.data;
+        this.setState({ coins });
+      })
+      );
+
+
+
+  }
+
   onChangeCode(e) {
     this.setState({
       cryptocurrency_code: e.target.value
@@ -88,21 +109,22 @@ axios.post('http://localhost:4000/add', obj).then(res =>
                     </div>
                 </form>
 
-            <table class="table">
-  <thead> 
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Value</th>
-    </tr>
-  </thead>
+            <table class="table text-center row col-auto justify-content-center">
+  
   <tbody>
     { this.state.coins.map(coin => 
     <tr>
       <td>{coin.cryptocurrency_name}</td>
       <td>{coin.cryptocurrency_code}</td>
+      <td><button type="button" onClick={() => this.remove(coin.cryptocurrency_code)} class="btn btn-outline-danger btn-sm">Delete</button></td>
       </tr>)}
   </tbody>
 </table>
+  
+<script>
+} 
+
+</script>
             </div>
     )
   }

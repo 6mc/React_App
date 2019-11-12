@@ -35,6 +35,28 @@ MongoClient.connect(url, function(err, db) {
 
 
 
+ app.post('/delete', function(req,res){
+   
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  dbo.collection("cryptocurrencies").remove(req.body, function(err, obj) {
+    if (err) throw err;
+    console.log(obj.result.n + " document(s) deleted");
+    db.close();
+  });
+
+ });
+
+
+     res.json(req.body);
+     console.log(req.body)
+
+   });
+
+
+
+
  app.post('/add', function(req,res){
    
 
