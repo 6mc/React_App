@@ -11,12 +11,27 @@ state = {
     coins: []
   }
 
+
+
   componentDidMount() {
+
+
     axios.get("http://localhost:4000/index")
       .then(res => {
         var coins = res.data;
         this.setState({ coins });
       })
+  
+function update(state) {
+  console.log("updating datas");
+  axios.get("http://localhost:4000/index")
+      .then(res => {
+       // var coins = res.data;
+        state.setState({ coins:res.data });
+      }) 
+}
+
+setInterval(() => update(this), 300000)
   }
 
   constructor(props) {
@@ -43,6 +58,8 @@ super(props);
       cryptocurrency_name: e.target.value
     });
   }
+
+
 
   remove(coin)
   {

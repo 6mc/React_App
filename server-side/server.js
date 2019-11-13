@@ -80,7 +80,7 @@ console.log("ikindi"+result)
 
 console.log("utundu"+result)
   result[0]["price"]= JSON.parse(body).EUR;
-  console.log("mal bu:" + result[0]);
+  console.log(result[0]);
 
    dbo.collection("cryptocurrencies").insertOne(result[0], function(err, res) {
       });
@@ -108,7 +108,7 @@ db.close();
 }
 
 
-cron.schedule('* * * * *', () => {
+cron.schedule('*/5 * * * *', () => {
   
   console.log('running  task every 5 minutes');
 
