@@ -116,6 +116,7 @@ axios.post('http://localhost:4000/add', obj).then(res =>
     <tr>
       <td>{coin.cryptocurrency_name}</td>
       <td>{coin.cryptocurrency_code}</td>
+      <td>{coin.price}€</td>
       <td><button type="button" onClick={() => this.remove(coin.cryptocurrency_code)} class="btn btn-outline-danger btn-sm">Delete</button></td>
       </tr>)}
   </tbody>

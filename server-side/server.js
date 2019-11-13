@@ -55,36 +55,32 @@ app.use(cors());
 
 var cron = require('node-cron');
 
-cron.schedule('*/5 * * * *', () => {
-  
-  console.log('running a task every 1 minutes');
-
-
-MongoClient.connect(url, function(err, db) {
+function updatep(index) {
+  // body...
+  MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   var dbo = db.db("mydb");
-  dbo.collection("cryptocurrencies").find({}).toArray(function(err, result) {
-    if (err) throw err;
-    
-  
 
-Request.get("https://min-api.cryptocompare.com/data/price?fsym="+result[0].cryptocurrency_code+"&tsyms=EUR", (error, response, body) => {
+ 
+  dbo.collection("cryptocurrencies").find({step:index+1} ).toArray(function(err, result) {
+    if (err) throw err;
+  //  console.log(result);
+
+
+  Request.get("https://min-api.cryptocompare.com/data/price?fsym="+result[0].cryptocurrency_code+"&tsyms=EUR", (error, response, body) => {
    
 console.log(JSON.parse(body).EUR);
 
 
-
-
-  dbo.collection("cryptocurrencies").find({step:1} ).toArray(function(err, result) {
-    if (err) throw err;
-    console.log(result);
-
+console.log("ikindi"+result)
+//result = this.result;
 
    dbo.collection("cryptocurrencies").remove(result[0], function(err, obj) {
   });
 
-	result[0]["price"]=JSON.parse(body).EUR;
-	console.log(result);
+console.log("utundu"+result)
+  result[0]["price"]= JSON.parse(body).EUR;
+  console.log("mal bu:" + result[0]);
 
    dbo.collection("cryptocurrencies").insertOne(result[0], function(err, res) {
       });
@@ -95,13 +91,30 @@ console.log(JSON.parse(body).EUR);
 
 
 
+
 });
-    
+
+dbo.collection("cryptocurrencies").find({}).toArray(function(err, result) {
+    if (err) throw err;
+  index++;  
+if (index<result.length) {
+console.log(index)
+console.log(result.length)
+
+   updatep(index);}
+db.close();
+  });  
+ });
+}
 
 
-  });
-});
-    db.close();
+cron.schedule('* * * * *', () => {
+  
+  console.log('running  task every 5 minutes');
+
+
+
+    updatep(0)
 
 
 });
